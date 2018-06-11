@@ -1,0 +1,61 @@
+<?php
+
+return [
+    'abbr_day_names' => [
+        'Sun',
+        'Mon',
+        'Tues',
+        'Wed',
+        'Thurs',
+        'Fri',
+        'Sat',
+    ],
+    'abbr_month_names' => [
+        'Jan', 
+        'Feb', 
+        'Mar',
+        'Apr', 
+        'May',
+        'Jun', 
+        'Jul', 
+        'Aug', 
+        'Sept',
+        'Oct',
+        'Nov', 
+        'Dec',
+    ],
+    'day_names' => [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+    ],
+    'first_day_of_week' => 1, 
+    'formats' => [
+        'date' => [
+            'short' => "m-d-y",
+            'long' => "m-d-Y",
+        ],
+        'datetime' => [
+            'short' => "y-m-d h:i a",
+            'long' => "Y-m-d h:i:s a",
+        ],
+    ],
+    'month_names' => [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+    ],
+];
