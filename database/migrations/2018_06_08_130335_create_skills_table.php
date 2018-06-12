@@ -27,7 +27,8 @@ class CreateSkillsTable extends Migration
             $table
                 ->foreign('skill_group_id')
                 ->references('id')
-                ->on('skill_groups');
+                ->on('skill_groups')
+                ->onDelete('cascade');
             $table->unique('name');
         });
     }

@@ -25,7 +25,7 @@ class SessionControllerTest extends TestCase
 
     public function testLoginWithWrongCredentials()
     {
-        $this->assertEquals(0, User::count());
+        $allUserCount = User::count();
 
         $mock = \Mockery::mock('alias:'.Ldap::class);
         $mock->shouldReceive('authenticate')
@@ -81,28 +81,28 @@ class SessionControllerTest extends TestCase
             ])
         ;
 
-        $this->assertEquals(0, User::count());
+        $this->assertEquals($allUserCount, User::count());
     }
 
     public function testLoginWithRightCredentials()
     {
-        $this->assertEquals(0, User::count());
+        $allUserCount = User::count();
 
         $mock = \Mockery::mock('alias:'.Ldap::class);
         $mock->shouldReceive('authenticate')
             ->once()
-            ->withArgs(['tesla', 'right-password'])
+            ->withArgs(['new-user', 'right-password'])
             ->andReturn(true);
         $mock->shouldReceive('get_user_info')
             ->once()
-            ->withArgs(['tesla'])
-            ->andReturn([['cn' => ['Nikola Tesla']]]);
+            ->withArgs(['new-user'])
+            ->andReturn([['cn' => ['New User']]]);
 
         app()->instance(Ldap::class, $mock);
 
         $response = $this->post(route('login_create'), [
             'auth' => [
-                'login' => 'tesla',
+                'login' => 'new-user',
                 'password' => 'right-password',
             ],
             'remember' => 1,
@@ -114,7 +114,7 @@ class SessionControllerTest extends TestCase
             ->assertSessionHas('flash_notice', 'Sie sind nun eingeloggt.')
         ;
 
-        $this->assertEquals(1, User::count());
+        $this->assertEquals($allUserCount + 1, User::count());
     }
 
     public function testLogout()

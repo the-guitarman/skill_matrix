@@ -13466,3 +13466,18 @@ a.text-dark:focus {
   clip: auto;
 }
 
+.container-fluid {
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+
+.pagination {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+form.css-delete-button {
+  display: inline;
+}
+

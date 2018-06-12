@@ -27,6 +27,25 @@ class Skill extends Model
         'name', 
     ];
 
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($model)
+        {
+            //if ($model->forceDeleting) {
+                $model->users()->detach();
+            //}
+        });
+
+        //static::addGlobalScope(new MandantScope);
+    }
+
 
     public function skillGroup() 
     {

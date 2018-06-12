@@ -19,7 +19,7 @@
                 <a class="nav-item nav-link" href="{{route('login')}}">Login <span class="sr-only">(current)</span></a>
             @endif
         @else
-            <a class="nav-item nav-link active" href="{{route('login')}}">Skill-Groups <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link active" href="{{route('skill-groups.index')}}">Skill-Groups <span class="sr-only">(current)</span></a>
             <div class="nav-item">
                 <span class="nav-link disabled navbar-text">Angemeldet: {{ Auth::user()->login }}</span>
             </div>

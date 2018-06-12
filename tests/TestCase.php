@@ -89,6 +89,14 @@ abstract class TestCase extends BaseTestCase
         return $this;
     }
 
+    public function loginRequired(string $method, string $route, array $params = [])
+    {
+        $this->from(route('login'))
+            ->$method(route($route, $params))
+            ->assertStatus(302)
+            ->assertRedirect(route('login'));
+    }
+
     /**
      * Prints the errors from the session store.
      *

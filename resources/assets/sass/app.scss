@@ -9,3 +9,16 @@
 @import '~bootstrap/scss/bootstrap';
 
 @import "node_modules/font-awesome/scss/font-awesome.scss";
+
+.container-fluid {
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+.pagination {
+    display: inline-flex;
+}
+
+form.css-delete-button {
+  display: inline;
+}

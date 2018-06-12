@@ -21,18 +21,6 @@ class User extends Authenticatable
     //protected $table = 'users';
 
     /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-//        static::addGlobalScope(new MandantScope);
-    }
-
-    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
@@ -56,6 +44,25 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($model)
+        {
+            //if ($model->forceDeleting) {
+                $model->skills()->detach();
+            //}
+        });
+
+        //static::addGlobalScope(new MandantScope);
+    }
 
     public function skills()
     {

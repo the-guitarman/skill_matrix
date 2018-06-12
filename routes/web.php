@@ -23,4 +23,9 @@ Route::namespace('Auth')->group(function() {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', 'PagesController@index')->name('root');
+
+    Route::resource('skill-groups', 'SkillsGroupController')->parameters(['skill-groups' => 'id']);
+
+    Route::resource('skill-groups.skills', 'SkillsController')
+        ->parameters(['skill-groups' => 'skill_group_id', 'skills' => 'id']);
 });

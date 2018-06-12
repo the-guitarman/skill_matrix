@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta charset="UTF-8">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Institutsübersicht</title>
+        <title>{{ $app_name }}</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico" />
         <!--<link rel="stylesheet" href="{{ asset('css/foundation.css') }}">-->
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
@@ -22,7 +22,12 @@
 
         <div class="container-fluid clearfix">
             @include('layouts/flash_messages')
-@yield('content')
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-6">
+                    @yield('content')
+                </div>
+            </div>
         </div>
 
         <footer>
