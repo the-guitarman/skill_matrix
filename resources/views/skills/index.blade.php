@@ -1,0 +1,1 @@
+@include('skill_groups/show', ['skillGroup' => $skillGroup, 'skills' => $skills])
