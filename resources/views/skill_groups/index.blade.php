@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('top_navbar_create_button')
-    <a href="{{ route('skill-groups.create') }}" class="top-nav-button btn btn-sm btn-primary"><i class="fa fa-plus"></i> Hinzufügen</a>
+    <a href="{{ route('skill-groups.create') }}" class="nav-item btn btn-success"><i class="fa fa-plus"></i> Skill-Group <span class="sr-only">(current)</span></a>
 @endsection
 
 @section('content')
-    <h3><i class="fa fa-object-group"></i> Skill Groups</h3>
+    <h3><i class="fa fa-object-group"></i> Skill-Groups</h3>
 
     <table class="table table-striped table-hover">
         <thead>

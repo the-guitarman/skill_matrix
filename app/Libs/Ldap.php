@@ -9,7 +9,7 @@ abstract class Ldap {
     const UID_REPLACEMENT_PATTERN = '__UID__';
 
     public static function authenticate($username, $password) {
-        #return true;
+        return true;
         $result = false;
 
         Log::info('Ldap::authenticate(...)');
@@ -51,7 +51,7 @@ abstract class Ldap {
     }
 
     public static function get_user_info($username, $ldap_connection = null) {
-        #return [['cn' => ['Nikola Tesla']]];
+        return [['cn' => ['Nikola Tesla']]];
 
         $config       = self::get_config();
         $ldap_base_dn = $config['base_dn'];

@@ -23,7 +23,7 @@ class SkillGroupsControllerTest extends TestCase
             ->from(route('root'))
             ->get(route('skill-groups.index'))
             ->assertStatus(200)
-            ->assertSee('Skill Groups');
+            ->assertSee('Skill-Groups');
     }
 
     public function testShowsASkillGroup()
