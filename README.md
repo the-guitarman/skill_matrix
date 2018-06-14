@@ -17,7 +17,7 @@ user administration system.
 Clone oder deploy the project and move into the project folder:
 
 ```bash
-$ git clone git@??? skill_matrix
+$ git clone https://github.com/the-guitarman/skill_matrix.git skill_matrix
 $ cd skill_matrix
 ```
 
@@ -207,11 +207,21 @@ start with a new clean database migration.
 $ php artisan migrate:fresh --seed
 ```
 
+## License
+
+This project has a dual license.
+
+This package is licensed under the LGPL 3.0. Do whatever you want with it, but please give improvements and bugfixes back so everyone can benefit.
+
+For commercial usage please contact me at first.
+
+**Note:** Everything may break at every time.
+
 ## TODO
 
-- [ ] SkillGroup Model
-- [ ] Skill Model
-- [ ] Model associations
+- [x] SkillGroup Model
+- [x] Skill Model
+- [x] Model associations
 - [ ] remove an account with all skills
 - [ ] own skills are editable only
 - [ ] overview about all inhouse skills
