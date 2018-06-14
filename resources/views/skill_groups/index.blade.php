@@ -10,7 +10,11 @@
     <table class="table table-striped table-hover">
         <thead>
         <tr>
-            <th>@include('common/_order_by_column_header', ['text' => 'Group-Name'])</th>
+            <th>
+                <a href="{{ Request::fullUrlWithQuery(['sort' => 'name', 'dir=asc']) }}">
+                    @include('common/_order_by_column_header', ['text' => 'Group-Name'])
+                </a>
+            </th>
             <th>Anzahl Skills</th>
             <th></th>
         </tr>
