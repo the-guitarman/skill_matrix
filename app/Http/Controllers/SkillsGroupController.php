@@ -33,7 +33,7 @@ class SkillsGroupController extends Controller
      */
     public function index()
     {
-        $skillGroups = SkillGroup::withCount(['skills'])->orderBy('name', 'ASC')->paginate($this->perPage);
+        $skillGroups = SkillGroup::withCount(['skills'])->orderBy('name', $this->orderByDirection)->paginate($this->perPage);
         return view('skill_groups/index', ['skillGroups' => $skillGroups]);
     }
 
@@ -148,6 +148,7 @@ class SkillsGroupController extends Controller
 
     /**
      * @param  \Illuminate\Http\Request  $request
+     * @param int | null
      * @return Array
      */
     protected function execute_validations(Request $request, int $id = null)

@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Sharing Data with all Views
         view()->share('app_name', Config::get('app.name'));
+        view()->share('app_copyright', $this->copyright());
 
         //Carbon::setLocale(Config::get('app.locale'));
 
@@ -36,5 +37,14 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.debug') === true) {
             App::register(DebugbarServiceProvider::class);
         }
+    }
+
+    protected function copyright() 
+    {
+        $ergebnis = 2018;
+        if ($ergebnis < date('Y')) {
+            $ergebnis .= ' - '.date('Y');
+        }
+        return 'Copyright '.$ergebnis;
     }
 }

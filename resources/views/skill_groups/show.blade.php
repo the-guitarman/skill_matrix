@@ -16,7 +16,7 @@
     <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <td>Skill</td>
+                <td>@include('common/_order_by_column_header', ['text' => 'Skill-Name'])</td>
                 <td></td>
             </tr>
         </thead>
@@ -25,6 +25,7 @@
             <tr>
                 <td>{{ $skill->name }}</td>
                 <td class="text-right">
+                    @include('common/_delete_button', ['route' => 'skill-groups.skills.destroy', 'route_parameters' => ['skill_group_id' => $skill->skill_group_id, 'id' => $skill->id], 'text' => '<i class="fa fa-trash"></i>'])
                     <a href="{{ route('skill-groups.skills.edit', ['skill_group_id' => $skillGroup->id, 'id' => $skill->id]) }}" class="btn btn-xs btn-primary"><i class="fa fa-edit"></i></a>
                 </td>
             </tr>

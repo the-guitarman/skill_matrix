@@ -35,114 +35,100 @@ class SkillControllerTest extends TestCase
             ->assertSee($this->skillGroup->name);
     }
 
-/*
-    public function testShowsASkillGroup()
+    public function testShowsCreateASkill()
     {
-        $skillGroup = factory(SkillGroup::class)->create();
-
-        $this->loginRequired('get', 'skill-groups.skills.show', ['id' => $skillGroup->id]);
-
-        $this->user = factory(User::class)->create();
+        $this->loginRequired('get', 'skill-groups.skills.create', ['skill_group_id' => $this->skillGroup->id]);
 
         $this->actingAs($this->user)
-            ->from(route('skill-groups.skills.index'))
-            ->get(route('skill-groups.skills.show', $skillGroup->id))
+            ->from(route('skill-groups.skills.index', ['skill_group_id' => $this->skillGroup->id]))
+            ->get(route('skill-groups.skills.create', ['skill_group_id' => $this->skillGroup->id]))
             ->assertStatus(200)
-            ->assertSee($skillGroup->name);
+            ->assertSee('Skill anlegen');
     }
 
-    public function testShowsCreateASkillGroup()
+    public function testTriesToStoreASkill()
     {
-        $this->loginRequired('get', 'skill-groups.skills.create');
-
-        $this->user = factory(User::class)->create();
+        $this->loginRequired('post', 'skill-groups.skills.store', ['skill_group_id' => $this->skillGroup->id]);
 
         $this->actingAs($this->user)
-            ->from(route('skill-groups.skills.index'))
-            ->get(route('skill-groups.skills.create'))
-            ->assertStatus(200)
-            ->assertSee('Skill Group anlegen');
-    }
-
-    public function testTriesToStoreASkillGroup()
-    {
-        $this->loginRequired('post', 'skill-groups.skills.store', []);
-
-        $this->user = factory(User::class)->create();
-
-        $this->actingAs($this->user)
-            ->from(route('skill-groups.skills.create'))
-            ->post(route('skill-groups.skills.store'), [
-                'skill_group' => [
+            ->from(route('skill-groups.skills.create', ['skill_group_id' => $this->skillGroup->id]))
+            ->post(route('skill-groups.skills.store', ['skill_group_id' => $this->skillGroup->id]), [
+                'skill' => [
+                    'skill_group_id' => null,
                     'name' => null,
                 ]
             ])
             ->assertStatus(302)
-            ->assertRedirect(route('skill-groups.skills.create'))
+            ->assertRedirect(route('skill-groups.skills.create', ['skill_group_id' => $this->skillGroup->id]))
             ->assertSessionHasErrors([
-                'skill_group.name' => 'Der Name der Skill Group wird benötigt.',
+                'skill.skill_group_id' => 'Wählen Sie die Skill Group aus.',
+                'skill.name' => 'Der Name des Skills wird benötigt.',
             ])
         ;
 
         $this->actingAs($this->user)
-            ->from(route('skill-groups.skills.create'))
-            ->post(route('skill-groups.skills.store'), [
-                'skill_group' => [
+            ->from(route('skill-groups.skills.create', ['skill_group_id' => $this->skillGroup->id]))
+            ->post(route('skill-groups.skills.store', ['skill_group_id' => $this->skillGroup->id,]), [
+                'skill' => [
+                    'skill_group_id' => 99999,
                     'name' => 'S',
                 ]
             ])
             ->assertStatus(302)
-            ->assertRedirect(route('skill-groups.skills.create'))
+            ->assertRedirect(route('skill-groups.skills.create', ['skill_group_id' => $this->skillGroup->id]))
             ->assertSessionHasErrors([
-                'skill_group.name' => 'Geben Sie mindestens 2 Zeichen ein.',
+                'skill.skill_group_id' => 'Wählen Sie die Skill Group aus.',
+                'skill.name' => 'Geben Sie mindestens 2 Zeichen ein.',
             ])
         ;
     }
 
-    public function testtriesToStoreAnExistingSkillGroup()
+    public function testtriesToStoreAnExistingSkill()
     {
-        $this->loginRequired('post', 'skill-groups.skills.store', []);
+        $this->loginRequired('post', 'skill-groups.skills.store', ['skill_group_id' => $this->skillGroup->id]);
 
-        $this->user = factory(User::class)->create();
-        $skillGroup = factory(SkillGroup::class)->create();
-        $allSkillGroupsCount = SkillGroup::count();
-        $attributes = ['name' => $skillGroup->name];
+        $skill = factory(Skill::class)->create();
+        $allSkillsCount = Skill::count();
+        $attributes = ['skill_group_id' => $skill->skill_group_id, 'name' => $skill->name];
 
         $this->actingAs($this->user)
-            ->from(route('skill-groups.skills.create'))
-            ->post(route('skill-groups.skills.store'), [
-                'skill_group' => $attributes
+            ->from(route('skill-groups.skills.create', ['skill_group_id' => $this->skillGroup->id]))
+            ->post(route('skill-groups.skills.store', ['skill_group_id' => $this->skillGroup->id]), [
+                'skill' => $attributes
             ])
             ->assertStatus(302)
-            ->assertRedirect(route('skill-groups.skills.create'))
+            ->assertRedirect(route('skill-groups.skills.create', ['skill_group_id' => $this->skillGroup->id]))
             ->assertSessionHasErrors([
-                'skill_group.name' => 'Der Name der Skill Group ist bereits vergeben.'
+                'skill.name' => 'Der Name des Skills ist bereits vergeben.'
             ])
         ;
 
-        $this->assertEquals($allSkillGroupsCount, SkillGroup::count());
+        $this->assertEquals($allSkillsCount, Skill::count());
     }
 
     public function testStoresASkillGroup()
     {
-        $this->loginRequired('post', 'skill-groups.skills.store', []);
+        $this->loginRequired('post', 'skill-groups.skills.store', ['skill_group_id' => $this->skillGroup->id]);
 
-        $this->user = factory(User::class)->create();
-        $allSkillGroupsCount = SkillGroup::count();
-        $attributes = ['name' => 'New-Skill-Group'];
+        $newSkillGroup = factory(SkillGroup::class)->create();
+
+        $allSkillCount = Skill::count();
+        $attributes = ['skill_group_id' => $newSkillGroup->id, 'name' => 'New-Skill'];
 
         $this->actingAs($this->user)
-            ->from(route('skill-groups.skills.create'))
-            ->post(route('skill-groups.skills.store'), [
-                'skill_group' => $attributes
+            ->from(route('skill-groups.skills.create', ['skill_group_id' => $this->skillGroup->id]))
+            ->post(route('skill-groups.skills.store', ['skill_group_id' => $this->skillGroup->id]), [
+                'skill' => $attributes
             ])
             ->assertStatus(302)
-            ->assertRedirect(route('skill-groups.skills.index'))
-            ->assertSessionHas('flash_notice', 'Die Skill Group ' . $attributes['name'] . ' wurde angelegt.')
+            ->assertRedirect(route('skill-groups.show', ['id' => $newSkillGroup->id]))
+            ->assertSessionHas('flash_notice', 'Der Skill ' . $attributes['name'] . ' wurde angelegt.')
         ;
 
-        $this->assertEquals($allSkillGroupsCount + 1, SkillGroup::count());
+        $this->assertEquals($allSkillCount + 1, Skill::count());
     }
+
+/*
 
     public function testShowsEditASkillGroup()
     {
@@ -211,54 +197,25 @@ class SkillControllerTest extends TestCase
 
         $this->assertEquals($allskillGroupsCount, SkillGroup::count());
     }
-
-    public function testTriesToDeleteASkillGroupWithSkills()
-    {
-        $this->user = factory(User::class)->create();
-        $skillGroup = factory(SkillGroup::class)->create();
-        $skill = factory(Skill::class)->create([
-            'skill_group_id' => $skillGroup->id
-        ]);
-
-        $this->assertCount(1, $skillGroup->skills()->get());
-
-        $this->loginRequired('delete', 'skill-groups.skills.destroy', ['id' => $skillGroup->id]);
-
-        $allSkillGroupsCount = SkillGroup::count();
-
-        $this->actingAs($this->user)
-            ->from(route('skill-groups.skills.show', $skillGroup->id))
-            ->delete(route('skill-groups.skills.destroy', $skillGroup->id))
-            ->assertStatus(302)
-            ->assertRedirect(route('skill-groups.skills.index'))
-            ->assertSessionHas('flash_error', 'Die Skill Group '.$skillGroup->name.' konnte nicht gelöscht werden.')
-        ;
-
-        $this->assertEquals($allSkillGroupsCount, SkillGroup::count());
-        $this->assertEquals($allSkillGroupsCount, SkillGroup::withTrashed()->count());
-    }
-
-    public function testDeletesASkillGroupWithoutSkills()
-    {
-        $this->user = factory(User::class)->create();
-        $skillGroup = factory(SkillGroup::class)->create();
-
-        $this->assertCount(0, $skillGroup->skills()->get());
-
-        $this->loginRequired('delete', 'skill-groups.skills.destroy', ['id' => $skillGroup->id]);
-
-        $allSkillGroupsCount = SkillGroup::count();
-
-        $this->actingAs($this->user)
-            ->from(route('skill-groups.skills.show', $skillGroup->id))
-            ->delete(route('skill-groups.skills.destroy', $skillGroup->id))
-            ->assertStatus(302)
-            ->assertRedirect(route('skill-groups.skills.index'))
-            ->assertSessionHas('flash_notice', 'Die Skill Group '.$skillGroup->name.' wurde gelöscht.')
-        ;
-
-        $this->assertEquals($allSkillGroupsCount - 1, SkillGroup::count());
-        $this->assertEquals($allSkillGroupsCount, SkillGroup::withTrashed()->count());
-    }
 */
+
+    public function testDeletesASkill()
+    {
+        $skill = factory(Skill::class)->create();
+
+        $this->loginRequired('delete', 'skill-groups.skills.destroy', ['skill_group_id' => $skill->skill_group_id, 'id' => $skill->id]);
+
+        $allSkillsCount = Skill::count();
+
+        $this->actingAs($this->user)
+            ->from(route('skill-groups.show', ['id' => $skill->skill_group_id]))
+            ->delete(route('skill-groups.skills.destroy', ['skill_group_id' => $skill->skill_group_id, 'id' => $skill->id]))
+            ->assertStatus(302)
+            ->assertRedirect(route('skill-groups.show', ['id' => $skill->skill_group_id]))
+            ->assertSessionHas('flash_notice', 'Der Skill '.$skill->name.' wurde gelöscht.')
+        ;
+
+        $this->assertEquals($allSkillsCount - 1, Skill::count());
+        $this->assertEquals($allSkillsCount, Skill::withTrashed()->count());
+    }
 }

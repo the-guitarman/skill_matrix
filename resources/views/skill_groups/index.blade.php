@@ -10,7 +10,7 @@
     <table class="table table-striped table-hover">
         <thead>
         <tr>
-            <th>Name</th>
+            <th>@include('common/_order_by_column_header', ['text' => 'Group-Name'])</th>
             <th>Anzahl Skills</th>
             <th></th>
         </tr>
@@ -22,7 +22,7 @@
                 <td>{{ $skillGroup->skills_count }}</td>
                 <td class="text-right">
                     @if ($skillGroup->skills_count === 0)
-                        @include('common/_delete_button', ['route' => 'skill-groups.destroy', 'id' => $skillGroup->id, 'text' => '<i class="fa fa-trash"></i>'])
+                        @include('common/_delete_button', ['route' => 'skill-groups.destroy', 'route_parameters' => ['id' => $skillGroup->id], 'text' => '<i class="fa fa-trash"></i>'])
                     @endif
 
                     <a href="{{ route('skill-groups.show', $skillGroup->id) }}" class="btn btn-xs btn-primary"><i class="fa fa-search"></i></a>
