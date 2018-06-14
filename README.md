@@ -108,7 +108,7 @@ Run these sqls:
 
 #### LDAP
 
-Edit `config/ldap.php` for `production` environment to your needs. Dev environment
+Copy `config/ldap.php.example` to `config/ldap.php` and edit it for `production` environment to your needs. Dev environment
 uses the `default` configuration. Test environment uses a mock ldap object.
 
 ## Translations
