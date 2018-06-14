@@ -3,6 +3,8 @@
 This is an inhouse skill matrix project with an LDAP connection to your 
 user administration system.
 
+**Attention:** This is an after work project and neither it's finished nor it's ready for production usage.
+
 ## Installation
 
 ### Requirements
