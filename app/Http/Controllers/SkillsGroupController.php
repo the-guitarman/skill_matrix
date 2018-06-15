@@ -29,11 +29,13 @@ class SkillsGroupController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $skillGroups = SkillGroup::withCount(['skills'])->orderBy('name', $this->orderByDirection)->paginate($this->perPage);
+        $sort = $this->sort($request, 'name');
+        $skillGroups = SkillGroup::withCount(['skills'])->orderBy($sort['sort'], $sort['dir'])->paginate($this->perPage);
         return view('skill_groups/index', ['skillGroups' => $skillGroups]);
     }
 

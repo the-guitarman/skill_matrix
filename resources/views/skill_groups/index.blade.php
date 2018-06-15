@@ -11,7 +11,13 @@
         <thead>
         <tr>
             <th>
-                <a href="{{ Request::fullUrlWithQuery(['sort' => 'name', 'dir=asc']) }}">
+                @php
+                    $sort = session('sort');
+                    $sort = $sort[Route::currentRouteName()];
+                    $sort['dir'] = $sort['dir'] === 'asc' ? 'desc' : 'asc';
+
+                @endphp
+                <a href="{{ Request::fullUrlWithQuery($sort) }}">
                     @include('common/_order_by_column_header', ['text' => 'Group-Name'])
                 </a>
             </th>
