@@ -18,6 +18,7 @@ use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\{
     Artisan, Config, DB, Hash
 };
+use Illuminate\Foundation\Testing\TestResponse;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -87,6 +88,19 @@ abstract class TestCase extends BaseTestCase
         $this->app['session']->setPreviousUrl($url);
 
         return $this;
+    }
+
+    public function responseHasTag(TestResponse $response, string $tagName, array $tagAttributes = []) {
+        $tagName = preg_quote($tagName);
+        $content = $response->getContent();
+        $this->assertRegExp("/<$tagName/", $content);
+        foreach($tagAttributes as $key => $value) {
+            $tag = ["<$tagName"];
+            $tag[] = preg_quote($key).'="'.preg_quote($value).'"';
+            $regex = '/'.implode('.*?', $tag).'.*?>/';
+            $this->assertRegExp($regex, $content);
+        }
+        return $response;
     }
 
     public function loginRequired(string $method, string $route, array $params = [])

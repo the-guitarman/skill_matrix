@@ -95,8 +95,8 @@ class SkillsController extends Controller
     public function edit(Request $request, int $skillGroupId, int $id)
     {
         $skillGroup = SkillGroup::findOrFail($skillGroupId);
-        $skill = $skillGroup->skills->findOrFail($id);
-        return view('skills/create', [
+        $skill = $skillGroup->skills()->findOrFail($id);
+        return view('skills/edit', [
             'skill' => $skill,
             'skillGroup' => $skillGroup, 
             'allSkillGroups' => SkillGroup::orderBy('name', $this->orderByDirection)->get(),
