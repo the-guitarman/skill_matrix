@@ -82,9 +82,10 @@ class SkillsGroupController extends Controller
     public function show(Request $request, int $id)
     {
         $skillGroup = SkillGroup::findOrFail($id);
+        $sort = $this->sort($request, 'name');
         return view('skill_groups/show', [
             'skillGroup' => $skillGroup, 
-            'skills' => $skillGroup->skills()->paginate($this->perPage)
+            'skills' => $skillGroup->skills()->orderBy($sort['sort'], $sort['dir'])->paginate($this->perPage)
         ]);
     }
 

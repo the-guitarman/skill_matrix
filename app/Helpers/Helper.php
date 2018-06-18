@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\{Auth, Lang};
+use App\Libs\Sort;
 
 class Helper
 {
@@ -33,5 +34,10 @@ class Helper
             $ergebnis = $value->format(Lang::get($formatKey));
         }
         return $ergebnis;
+    }
+
+    public static function sort(string $fieldName)
+    {
+        return Sort::viewSort($fieldName);
     }
 }

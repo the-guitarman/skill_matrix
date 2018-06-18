@@ -11,17 +11,15 @@
         <thead>
         <tr>
             <th>
-                @php
-                    $sort = session('sort');
-                    $sort = $sort[Route::currentRouteName()];
-                    $sort['dir'] = $sort['dir'] === 'asc' ? 'desc' : 'asc';
-
-                @endphp
-                <a href="{{ Request::fullUrlWithQuery($sort) }}">
+                <a href="{{ Request::fullUrlWithQuery(Helper::sort('name')) }}">
                     @include('common/_order_by_column_header', ['text' => 'Group-Name'])
                 </a>
             </th>
-            <th>Anzahl Skills</th>
+            <th>
+                <a href="{{ Request::fullUrlWithQuery(Helper::sort('skills_count')) }}">
+                    @include('common/_order_by_column_header', ['text' => 'Anzahl Skills'])
+                </a>
+            </th>
             <th></th>
         </tr>
         </thead>

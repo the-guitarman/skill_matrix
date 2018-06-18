@@ -16,8 +16,12 @@
     <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <td>@include('common/_order_by_column_header', ['text' => 'Skill-Name'])</td>
-                <td></td>
+                <th>
+                    <a href="{{ Request::fullUrlWithQuery(Helper::sort('name')) }}">
+                        @include('common/_order_by_column_header', ['text' => 'Skill-Name'])
+                    </a>
+                </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>

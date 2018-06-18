@@ -39,9 +39,10 @@ class SkillsController extends Controller
     public function index(Request $request, int $skillGroupId)
     {
         $skillGroup = SkillGroup::findOrFail($skillGroupId);
+        $sort = $this->sort($request, 'name');
         return view('skills/index', [
             'skillGroup' => $skillGroup, 
-            'skills' => $skillGroup->skills()->orderBy('name', $this->orderByDirection)->paginate($this->perPage)
+            'skills' => $skillGroup->skills()->orderBy($sort['sort'], $sort['dir'])->paginate($this->perPage)
         ]);
     }
 
@@ -56,10 +57,11 @@ class SkillsController extends Controller
     {
         $skillGroup = SkillGroup::findOrFail($skillGroupId);
         $skill = new Skill();
+        $sort = $this->sort($request, 'name');
         return view('skills/create', [
             'skill' => $skill,
             'skillGroup' => $skillGroup, 
-            'allSkillGroups' => SkillGroup::orderBy('name', $this->orderByDirection)->get(),
+            'allSkillGroups' => SkillGroup::orderBy($sort['sort'], $sort['dir'])->get(),
         ]);
     }
 
@@ -96,10 +98,11 @@ class SkillsController extends Controller
     {
         $skillGroup = SkillGroup::findOrFail($skillGroupId);
         $skill = $skillGroup->skills()->findOrFail($id);
+        $sort = $this->sort($request, 'name');
         return view('skills/edit', [
             'skill' => $skill,
             'skillGroup' => $skillGroup, 
-            'allSkillGroups' => SkillGroup::orderBy('name', $this->orderByDirection)->get(),
+            'allSkillGroups' => SkillGroup::orderBy($sort['sort'], $sort['dir'])->get(),
         ]);
     }
 
