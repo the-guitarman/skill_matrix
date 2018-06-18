@@ -3,7 +3,7 @@
 namespace App\Helpers;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\{Auth, Lang};
+use Illuminate\Support\Facades\{Auth, Lang, Request};
 use App\Libs\Sort;
 
 class Helper
@@ -36,8 +36,13 @@ class Helper
         return $ergebnis;
     }
 
-    public static function sort(string $fieldName)
+    public static function sort(string $fieldNameToStort)
     {
-        return Sort::viewSort($fieldName);
+        return Sort::viewSort($fieldNameToStort);
+    }
+
+    public static function fullUrlWithQueryAndSorting(string $fieldNameToStort)
+    {
+        return Request::fullUrlWithQuery(self::sort($fieldNameToStort));
     }
 }

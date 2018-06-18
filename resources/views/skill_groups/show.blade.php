@@ -17,7 +17,7 @@
         <thead>
             <tr>
                 <th>
-                    <a href="{{ Request::fullUrlWithQuery(Helper::sort('name')) }}">
+                    <a href="{{ Helper::fullUrlWithQueryAndSorting('name') }}">
                         @include('common/_order_by_column_header', ['text' => 'Skill-Name'])
                     </a>
                 </th>

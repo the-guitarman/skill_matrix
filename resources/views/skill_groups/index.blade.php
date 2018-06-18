@@ -11,12 +11,12 @@
         <thead>
         <tr>
             <th>
-                <a href="{{ Request::fullUrlWithQuery(Helper::sort('name')) }}">
+                <a href="{{ Helper::fullUrlWithQueryAndSorting('name') }}">
                     @include('common/_order_by_column_header', ['text' => 'Group-Name'])
                 </a>
             </th>
             <th>
-                <a href="{{ Request::fullUrlWithQuery(Helper::sort('skills_count')) }}">
+                <a href="{{ Helper::fullUrlWithQueryAndSorting('skills_count') }}">
                     @include('common/_order_by_column_header', ['text' => 'Anzahl Skills'])
                 </a>
             </th>
