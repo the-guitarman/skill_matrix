@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/the-guitarman/skill_matrix.svg?branch=master)](https://travis-ci.org/the-guitarman/skill_matrix)
+
 # Skill-Matrix
 
 This is an inhouse skill matrix project with an LDAP connection to your 
