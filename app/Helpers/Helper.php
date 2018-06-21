@@ -9,19 +9,19 @@ use App\Libs\Sort;
 class Helper
 {
     /**
-     * Prüft, ob der angemeldete Benutzer ein Recht für eine Eloquent-Modellklasse hat.
+     * Checks, wether the current user has a right to do something for a given eloquent model.
      *
      * @param string $recht
      * @param string $className
      * @return boolean
      *
      * Verwendung:
-     * currentUserCan('lesen', \App\Models\Arbeitgeber::class) => true|false
-     */
+     * currentUserCan('lesen', \App\Models\XXX::class) => true|false
     public static function currentUserCan($recht, $className)
     {
         return Auth::user()->can($recht, $className);
     }
+     */
 
     public static function localize($value, $formatKey = 'date.formats.datetime.long')
     {
