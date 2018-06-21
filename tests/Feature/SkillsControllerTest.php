@@ -32,7 +32,7 @@ class SkillControllerTest extends TestCase
             ->from(route('root'))
             ->get(route('skill-groups.skills.index', ['skill_group_id' => $this->skillGroup->id]))
             ->assertStatus(200)
-            ->assertSee($this->skillGroup->name);
+            ->assertSee(htmlspecialchars($this->skillGroup->name));
     }
 
     public function testShowsCreateASkill()
@@ -43,7 +43,7 @@ class SkillControllerTest extends TestCase
             ->from(route('skill-groups.skills.index', ['skill_group_id' => $this->skillGroup->id]))
             ->get(route('skill-groups.skills.create', ['skill_group_id' => $this->skillGroup->id]))
             ->assertStatus(200)
-            ->assertSee('Skill anlegen');
+            ->assertSee(htmlspecialchars('Skill anlegen'));
     }
 
     public function testTriesToStoreASkill()
@@ -138,7 +138,7 @@ class SkillControllerTest extends TestCase
             ->from(route('skill-groups.show', ['id' => $skill->skill_group_id]))
             ->get(route('skill-groups.skills.edit', ['skill_group_id' => $skill->skill_group_id, 'id' => $skill->id]))
             ->assertStatus(200)
-            ->assertSee('Skill ändern');
+            ->assertSee(htmlspecialchars('Skill ändern'));
 
         $this->responseHasTag($response, 'input', [
             'id' => 'skill_name',

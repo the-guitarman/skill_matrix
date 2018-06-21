@@ -14,6 +14,7 @@ abstract class TestCase extends BaseTestCase
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\{
     Artisan, Config, DB, Hash

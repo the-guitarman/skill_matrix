@@ -23,7 +23,7 @@ class SkillGroupsControllerTest extends TestCase
             ->from(route('root'))
             ->get(route('skill-groups.index'))
             ->assertStatus(200)
-            ->assertSee('Skill-Groups');
+            ->assertSee(htmlspecialchars('Skill-Groups'));
     }
 
     public function testShowsASkillGroup()
@@ -38,7 +38,7 @@ class SkillGroupsControllerTest extends TestCase
             ->from(route('skill-groups.index'))
             ->get(route('skill-groups.show', $skillGroup->id))
             ->assertStatus(200)
-            ->assertSee($skillGroup->name);
+            ->assertSee(htmlspecialchars($skillGroup->name));
     }
 
     public function testShowsCreateASkillGroup()
@@ -51,7 +51,7 @@ class SkillGroupsControllerTest extends TestCase
             ->from(route('skill-groups.index'))
             ->get(route('skill-groups.create'))
             ->assertStatus(200)
-            ->assertSee('Skill Group anlegen');
+            ->assertSee(htmlspecialchars('Skill Group anlegen'));
     }
 
     public function testTriesToStoreASkillGroup()
@@ -145,7 +145,7 @@ class SkillGroupsControllerTest extends TestCase
             ->from(route('skill-groups.index'))
             ->get(route('skill-groups.edit', ['id' => $skillGroup->id]))
             ->assertStatus(200)
-            ->assertSee('Skill Group ändern');
+            ->assertSee(htmlspecialchars('Skill Group ändern'));
     }
 
     public function testTriesToUpdateAnExistingSkillGroup()
