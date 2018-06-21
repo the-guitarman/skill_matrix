@@ -35,7 +35,7 @@ abstract class TestCase extends BaseTestCase
         $app = require __DIR__.'/../bootstrap/app.php';
 
         //Load environment
-        $app->loadEnvironmentFrom('.env.testing');
+        $app->loadEnvironmentFrom('.env.'.env('APP_ENV'));
 
         $app->make(Kernel::class)->bootstrap();
 
