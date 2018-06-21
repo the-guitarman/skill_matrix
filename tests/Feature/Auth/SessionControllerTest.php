@@ -23,6 +23,10 @@ class SessionControllerTest extends TestCase
         ;
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testLoginWithWrongCredentials()
     {
         $allUserCount = User::count();
@@ -84,6 +88,11 @@ class SessionControllerTest extends TestCase
         $this->assertEquals($allUserCount, User::count());
     }
 
+
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testLoginWithRightCredentials()
     {
         $allUserCount = User::count();
