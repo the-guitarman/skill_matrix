@@ -6,6 +6,7 @@
 
 if (!function_exists('gravatar')) {
     /**
+     * @codeCoverageIgnore
      * Access the gravatar helper.
      *
      * @return \Creativeorange\Gravatar\Gravatar|\Illuminate\Foundation\Application|mixed
@@ -18,6 +19,7 @@ if (!function_exists('gravatar')) {
 
 if (!function_exists('to_js')) {
     /**
+     * @codeCoverageIgnore
      * Access the javascript helper.
      */
     function to_js($key = null, $default = null)
@@ -36,6 +38,7 @@ if (!function_exists('to_js')) {
 
 if (!function_exists('meta')) {
     /**
+     * @codeCoverageIgnore
      * Access the meta helper.
      */
     function meta()
@@ -46,6 +49,7 @@ if (!function_exists('meta')) {
 
 if (!function_exists('meta_tag')) {
     /**
+     * @codeCoverageIgnore
      * Access the meta tags helper.
      */
     function meta_tag($name = null, $content = null, $attributes = [])
@@ -56,6 +60,7 @@ if (!function_exists('meta_tag')) {
 
 if (!function_exists('meta_property')) {
     /**
+     * @codeCoverageIgnore
      * Access the meta tags helper.
      */
     function meta_property($name = null, $content = null, $attributes = [])
@@ -66,6 +71,7 @@ if (!function_exists('meta_property')) {
 
 if (!function_exists('protection_context')) {
     /**
+     * @codeCoverageIgnore
      * @return \NetLicensing\Context
      */
     function protection_context()
@@ -76,6 +82,7 @@ if (!function_exists('protection_context')) {
 
 if (!function_exists('protection_context_basic_auth')) {
     /**
+     * @codeCoverageIgnore
      * @return \NetLicensing\Context
      */
     function protection_context_basic_auth()
@@ -86,6 +93,7 @@ if (!function_exists('protection_context_basic_auth')) {
 
 if (!function_exists('protection_context_api_key')) {
     /**
+     * @codeCoverageIgnore
      * @return \NetLicensing\Context
      */
     function protection_context_api_key()
@@ -97,6 +105,7 @@ if (!function_exists('protection_context_api_key')) {
 if (!function_exists('protection_shop_token')) {
 
     /**
+     * @codeCoverageIgnore
      * @param \App\Models\Auth\User\User $user
      * @param null $successUrl
      * @param null $cancelUrl
@@ -113,6 +122,7 @@ if (!function_exists('protection_shop_token')) {
 if (!function_exists('protection_validate')) {
 
     /**
+     * @codeCoverageIgnore
      * @param \App\Models\Auth\User\User $user
      * @return \App\Models\Protection\ProtectionValidation
      */
@@ -124,18 +134,20 @@ if (!function_exists('protection_validate')) {
 
 // http://php.net/manual/en/function.money-format.php
 if (!function_exists('money_format')) {
-    /*
-    That it is an implementation of the function money_format for the
-    platforms that do not it bear.
-
-    The function accepts to same string of format accepts for the
-    original function of the PHP.
-
-    (Sorry. my writing in English is very bad)
-
-    The function is tested using PHP 5.1.4 in Windows XP
-    and Apache WebServer.
-    */
+    /**
+     * @codeCoverageIgnore
+     * 
+     * That it is an implementation of the function money_format for the
+     * platforms that do not it bear.
+     * 
+     * The function accepts to same string of format accepts for the
+     * original function of the PHP.
+     * 
+     * (Sorry. my writing in English is very bad)
+     * 
+     * The function is tested using PHP 5.1.4 in Windows XP
+     * and Apache WebServer.
+     */
     function money_format($format, $number)
     {
         $regex  = '/%((?:[\^!\-]|\+|\(|\=.)*)([0-9]+)?'.
