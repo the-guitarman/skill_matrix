@@ -9,11 +9,6 @@ use App\Models\SkillGroup;
 
 class SkillGroupTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function testAssociations()
     {
         $skillGroup = factory(SkillGroup::class)->create();

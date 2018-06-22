@@ -9,11 +9,6 @@ use App\Models\{Skill, UserSkill};
 
 class SkillTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function testAssociations()
     {
         $skill = factory(Skill::class)->create();

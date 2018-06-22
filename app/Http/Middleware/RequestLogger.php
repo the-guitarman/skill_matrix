@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Closure;
 
+/**
+ * @codeCoverageIgnore
+ */
 class RequestLogger
 {
     protected $start_time = null;

@@ -5,6 +5,9 @@ namespace App\Libs;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * @codeCoverageIgnore
+ */
 abstract class Ldap {
     const UID_REPLACEMENT_PATTERN = '__UID__';
 
