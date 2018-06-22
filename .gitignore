@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage/test_coverage/**/*
 /vendor
 /.idea
 /.vscode
@@ -13,3 +14,4 @@ yarn-error.log
 .env
 /**/*.ignore
 /config/ldap.php
+/**/.DS_Store

@@ -2,14 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SkillGroup extends Model
+class UserSkill extends Pivot
 {
-    use SoftDeletes;
+    //use SoftDeletes
 
+    protected $table = 'user_skills';
     public $timestamps = true;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    //protected $table = 'users';
 
     /**
      * The attributes that should be mutated to dates.
@@ -24,7 +32,7 @@ class SkillGroup extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 
+        'grade', 
     ];
 
     /**
@@ -35,17 +43,4 @@ class SkillGroup extends Model
     protected $hidden = [
         
     ];
-
-    public function skills() 
-    {
-        return $this->hasMany(Skill::class);
-    }
-
-    public function users() 
-    {
-        $skillIds = $this->skills->pluck('id')->all();
-        $userIds = UserSkill::whereIn('skill_id', $skillIds)->pluck('user_id')->all();
-        $userIds = array_unique($userIds);
-        return User::whereIn('id', $userIds)->orderBy('name', 'asc');
-    }
 }
