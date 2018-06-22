@@ -77,11 +77,7 @@ class SkillsController extends Controller
         $validated_data = $this->execute_validations($request);
 
         $skill = Skill::create($validated_data['skill']);
-        if (is_numeric($skill->id)) {
-            $flash = ['flash_notice' => 'Der Skill '.$skill->name.' wurde angelegt.'];
-        } else {
-            $flash = ['flash_error' => 'Der Skill konnte nicht angelegt werden.'];
-        }
+        $flash = ['flash_notice' => 'Der Skill '.$skill->name.' wurde angelegt.'];
 
         return redirect()->route('skill-groups.show', ['id' => $skill->skill_group_id])->with($flash);
     }
@@ -116,15 +112,12 @@ class SkillsController extends Controller
      */
     public function update(Request $request, int $oldSkillGroupId, int $id)
     {
-        $validated_data = $this->execute_validations($request);
+        $validated_data = $this->execute_validations($request, $id);
 
         $skill = Skill::findOrFail($id);
         $skill->fill($validated_data['skill']);
-        if ($skill->save()) {
-            $flash = ['flash_notice' => 'Der Skill '.$skill->name.' wurde gespeichert.'];
-        } else {
-            $flash = ['flash_error' => 'Der Skill konnte nicht gespeichert werden.'];
-        }
+        $skill->save();
+        $flash = ['flash_notice' => 'Der Skill '.$skill->name.' wurde gespeichert.'];
 
         return redirect()->route('skill-groups.show', ['id' => $skill->skill_group_id])->with($flash);
     }
