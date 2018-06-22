@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\{App, Schema, Config};
 use Illuminate\Support\ServiceProvider;
 use Barryvdh\Debugbar\ServiceProvider as DebugbarServiceProvider;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,10 +42,11 @@ class AppServiceProvider extends ServiceProvider
 
     protected function copyright() 
     {
-        $ergebnis = 2018;
-        if ($ergebnis < date('Y')) {
-            $ergebnis .= ' - '.date('Y');
+        $result = 2018;
+        $currentYear = Carbon::now()->format('Y');
+        if ($result < $currentYear) {
+            $result .= " - $currentYear";
         }
-        return 'Copyright '.$ergebnis;
+        return 'Copyright '.$result;
     }
 }

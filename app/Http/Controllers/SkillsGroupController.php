@@ -63,11 +63,7 @@ class SkillsGroupController extends Controller
         $validated_data = $this->execute_validations($request);
 
         $skillGroup = SkillGroup::create($validated_data['skill_group']);
-        if (is_numeric($skillGroup->id)) {
-            $flash = ['flash_notice' => 'Die Skill Group '.$skillGroup->name.' wurde angelegt.'];
-        } else {
-            $flash = ['flash_error' => 'Die Skill Group konnte nicht angelegt werden.'];
-        }
+        $flash = ['flash_notice' => 'Die Skill Group '.$skillGroup->name.' wurde angelegt.'];
 
         return redirect()->route('skill-groups.index')->with($flash);
     }
@@ -116,11 +112,8 @@ class SkillsGroupController extends Controller
         $skillGroup = SkillGroup::withTrashed()->findOrFail($id);
         $skillGroup->fill($validated_data['skill_group']);
 
-        if ($skillGroup->save()) {
-            $flash = ['flash_notice' => 'Die Skill Group ' . $skillGroup->name . ' wurde gespeichert.'];
-        } else {
-            $flash = ['flash_error' => 'Die Skill Group ' . $skillGroup->name . ' konnte nicht gespeichert werden.'];
-        }
+        $skillGroup->save();
+        $flash = ['flash_notice' => 'Die Skill Group ' . $skillGroup->name . ' wurde gespeichert.'];
 
         return redirect()->route('skill-groups.index')->with($flash);
     }

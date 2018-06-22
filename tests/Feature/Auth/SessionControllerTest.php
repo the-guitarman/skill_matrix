@@ -43,7 +43,6 @@ class SessionControllerTest extends TestCase
 
 
 
-
         $response = $this->post(route('login_create'), [
             'auth' => [],
             'remember' => 1,

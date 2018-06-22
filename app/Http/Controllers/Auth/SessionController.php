@@ -84,14 +84,6 @@ class SessionController extends Controller {
         return redirect()->route('login');
     }
 
-    /**
-     * Filter the incoming requests.
-     */
-    public function filterRequests($route, $request)
-    {
-        
-    }
-
     protected function get_ldap_user_name($login) 
     {
         $result = null;

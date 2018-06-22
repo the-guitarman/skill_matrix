@@ -132,16 +132,11 @@ class SkillsController extends Controller
     public function destroy(Request $request, int $skillGroupId, int $id)
     {
         //DB::beginTransaction();
-
         $skill = Skill::findOrFail($id);
 
-        if ($skill->delete() > 0) {
-            //DB::commit();
-            $flash = ['flash_notice' => 'Der Skill '.$skill->name.' wurde gelöscht.'];
-        } else {
-            //DB::rollBack();
-            $flash = ['flash_error' => 'Der Skill '.$skill->name.' konnte nicht gelöscht werden.'];
-        }
+        $skill->delete();
+        //DB::commit();
+        $flash = ['flash_notice' => 'Der Skill '.$skill->name.' wurde gelöscht.'];
 
         return redirect()->route('skill-groups.show', ['id' => $skill->skill_group_id])->with($flash);
     }
