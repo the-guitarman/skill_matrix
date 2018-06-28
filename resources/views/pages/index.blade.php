@@ -13,11 +13,11 @@
                         <th colspan="{{ $skillGroup->skills_count }}">{{ $skillGroup->name }}</th>
                     @endforeach
                 </tr>
-                <tr>
+                <tr class="rotated">
                     <th></th>
                     @foreach($skillGroups as $skillGroup)
                         @foreach($skillGroup->skills as $skill)
-                            <th><div class="text-rotate-minus-90">{{ $skill->name }}</div></th>
+                            <th class="rotation-90"><div>{{ $skill->name }}</div></th>
                         @endforeach
                     @endforeach
                 </tr>
@@ -25,10 +25,10 @@
             </thead>
             <tbody>
                 <tr>
-                    <td></td>
+                    <td>&nbsp;</td>
                     @foreach($skillGroups as $skillGroup)
                         @foreach($skillGroup->skills as $skill)
-                            <td>{{ $skill->name }}</td>
+                            <th class="row-header">{{ $skill->name }}</th>
                         @endforeach
                     @endforeach
                 </tr>
