@@ -18,7 +18,7 @@
                     @foreach($skillGroups as $skillGroup)
                         @foreach($skillGroup->skills as $skill)
                             <!-- class="text-center" -->
-                            <th class="text-center" >{{ $skill->name }}</th>
+                            <th><div class="text-rotate-minus-90">{{ $skill->name }}</div></th>
                         @endforeach
                     @endforeach
                 </tr>
