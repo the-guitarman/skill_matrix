@@ -13467,8 +13467,8 @@ a.text-dark:focus {
 }
 
 .container-fluid {
-  padding-bottom: 15px;
-  padding-top: 15px;
+  padding-bottom: 80px;
+  padding-top: 30px;
 }
 
 .pagination {
@@ -13498,34 +13498,35 @@ form.css-delete-button {
           transform-origin: left top 0;
 }
 
-.table.rotated .row-header {
-  width: auto;
+.table.rotated th,
+.table.rotated td {
+  padding: 0;
 }
 
-.table.rotated td {
-  width: 40px;
-  vertical-align: middle;
-  text-align: center;
+.table.rotated .rotation-0 {
+  white-space: pre-line;
 }
 
 .table.rotated .rotation-90 {
-  height: 140px;
+  height: 120px;
+  width: 40px;
   white-space: nowrap;
-  vertical-align: top;
-  padding: 5px 0;
+  vertical-align: middle;
 }
 
 .table.rotated .rotation-90 > div {
-  -webkit-transform: translate(25px, 51px) rotate(270deg);
-          transform: translate(25px, 51px) rotate(270deg);
-  width: 30px;
-  position: relative;
-  bottom: 0px;
-  min-height: 40px;
-  line-height: 40px;
+  width: 60px;
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
 }
 
-.table.rotated .rotation-90 > div > span {
-  padding: 5px 10px;
+.table.rotated .row-header {
+  width: auto;
+  padding: 10px;
+}
+
+.table.rotated td.value {
+  height: 40px;
+  padding: 10px;
 }
 

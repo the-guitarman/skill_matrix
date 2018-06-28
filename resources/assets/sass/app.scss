@@ -11,8 +11,8 @@
 @import "node_modules/font-awesome/scss/font-awesome.scss";
 
 .container-fluid {
-    padding-bottom: 15px;
-    padding-top: 15px;
+    padding-bottom: 80px;
+    padding-top: 30px;
 }
 
 .pagination {
@@ -41,42 +41,36 @@ form.css-delete-button {
 }
 
 .table.rotated {
-    .row-header {
-        width: auto;
+    th, td {
+        padding: 0;
     }
 
-    td {
-        width: 40px;
-        vertical-align: middle;
-        text-align: center;
-    }
-
-    td.value {
-
+    .rotation-0 {
+        white-space: pre-line;
     }
 
     .rotation-90 {
-        height: 140px;
+        height: 120px;
+        width: 40px;
         white-space: nowrap;
-        vertical-align: top;
-        padding: 5px 0;
+        vertical-align: middle;
     }
 
     .rotation-90 > div {
-        transform:
-            /* Magic Numbers */
-            translate(25px, 51px)
-                /* 45 is really 360 - 45 */
-            rotate(270deg);
-        width: 30px;
-
-        position: relative;
-        bottom: 0px;
-        min-height: 40px;
-        line-height: 40px;
+        width: 60px;
+        transform: rotate(-90.0deg);
     }
 
-    .rotation-90 > div > span {
-        padding: 5px 10px;
+    .row-header {
+        width: auto;
+        padding: 10px;
+        white-space: nowrap;
+        vertical-align: middle;
+    }
+
+
+    td.value {
+        height: 40px;
+        padding: 3px;
     }
 }

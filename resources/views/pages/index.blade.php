@@ -10,7 +10,9 @@
                 <tr>
                     <td>&nbsp;</td>
                     @foreach($skillGroups as $skillGroup)
-                        <th class="text-center" colspan="{{ $skillGroup->skills_count }}">{{ $skillGroup->name }}</th>
+                        <th class="rotation-0 text-center" colspan="{{ $skillGroup->skills_count }}">
+                            {{ $skillGroup->name }}
+                        </th>
                     @endforeach
                 </tr>
                 <tr>
@@ -37,8 +39,8 @@
                                         //dd($userSkill);
                                         $currentGrade = 5;//$userSkill->grade;
                                     @endphp
-                                    <td class="value" style="background-color:rgba({{ implode(',', $grade_rgb_colors[$currentGrade]).',1' }})" class="text-center">
-                                        <a href="#">{{ $currentGrade }}</a>
+                                    <td class="value text-center" style="background-color:rgba({{ implode(',', $grade_rgb_colors[$currentGrade]).',1' }})" class="text-center">
+                                        <a href="#" class="btn btn-link">{{ $currentGrade }}</a>
                                     </td>
                                 @endforeach
                             @endforeach
