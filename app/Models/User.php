@@ -73,4 +73,16 @@ class User extends Authenticatable
             ->withTimestamps()
         ;
     }
+
+    public function getUserSkill(int $skillId)
+    {
+        $result = null;
+        foreach($this->skills as $skill) {
+            if ($skill->id === $skillId) {
+                $result = $skill->user_skill;
+                break;
+            }
+        }
+        return $result;
+    }
 }

@@ -20,8 +20,12 @@ class PagesController extends Controller {
     
     public function index(Request $request) {
         $sort = $this->sort($request, 'name');
-        $users = User::orderBy('name', Sort::DEFAULT_SORT_DIR);
+        $users = User::orderBy('name', Sort::DEFAULT_SORT_DIR)->get();
         $skillGroups = SkillGroup::with('skills')->withCount(['skills'])->orderBy($sort['sort'], $sort['dir'])->paginate($this->perPage);
-        return view('pages/index', ['skillGroups' => $skillGroups]);
+        $skillCount = 0;
+        foreach($skillGroups as $skillGroup) {
+            $skillCount += $skillGroup->skills_count;
+        }
+        return view('pages/index', ['skillGroups' => $skillGroups, 'skillCount' => $skillCount, 'users' => $users]);
     }
 }

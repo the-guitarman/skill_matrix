@@ -5,33 +5,51 @@
     <h2>Alle Skills</h2>
 
     @if($skillGroups->count() > 0)
-        <table class="table table-striped">
+        <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th></th>
+                    <td>&nbsp;</td>
                     @foreach($skillGroups as $skillGroup)
-                        <th colspan="{{ $skillGroup->skills_count }}">{{ $skillGroup->name }}</th>
+                        <th class="text-center" colspan="{{ $skillGroup->skills_count }}">{{ $skillGroup->name }}</th>
                     @endforeach
                 </tr>
                 <tr>
-                    <th></th>
+                    <td>&nbsp;</td>
                     @foreach($skillGroups as $skillGroup)
                         @foreach($skillGroup->skills as $skill)
-                            <th class="text-vertical">{{ $skill->name }}</th>
+                            <!-- class="text-center" -->
+                            <th class="text-center" >{{ $skill->name }}</th>
                         @endforeach
                     @endforeach
                 </tr>
-                
             </thead>
+
             <tbody>
-                <tr>
-                    <td></td>
-                    @foreach($skillGroups as $skillGroup)
-                        @foreach($skillGroup->skills as $skill)
-                            <td>{{ $skill->name }}</td>
-                        @endforeach
+                @if($users->count() > 0)
+                    @foreach($users as $user)
+                        <tr>
+                            <th>{{ $user->name }}</th>
+                            @foreach($skillGroups as $skillGroup)
+                                @foreach($skillGroup->skills as $skill)
+                                    @php
+                                        $userSkill = $user->getUserSkill($skill->id);
+                                        //dd($userSkill);
+                                        $currentGrade = 5;//$userSkill->grade;
+                                    @endphp
+                                    <td style="background-color:rgba({{ implode(',', $grade_rgb_colors[$currentGrade]).',1' }})" class="text-center">
+                                        <a href="#">{{ $currentGrade }}</a>
+                                    </td>
+                                @endforeach
+                            @endforeach
+                        </tr>
                     @endforeach
-                </tr>
+                @else
+                    <tr>
+                        <td colspan="{{ $skillCount + 1 }}">
+                            Es sind noch keine Benutzer-Skills eingetragen.
+                        </td>
+                    </tr>
+                @endif
             </tbody>
         </table>
     @else

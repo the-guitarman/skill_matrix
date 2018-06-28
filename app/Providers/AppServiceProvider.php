@@ -21,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
         // Sharing Data with all Views
         view()->share('app_name', Config::get('app.name'));
         view()->share('app_copyright', $this->copyright());
+        view()->share('grade_rgb_colors', Config::get('grade.rgb_colors'));
 
         //Carbon::setLocale(Config::get('app.locale'));
 
