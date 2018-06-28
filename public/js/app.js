@@ -47425,4 +47425,7 @@ $(document).ready(function() {
         $(this).parent('form').submit();
         return false;
     });
+
+    var rotateTextInElements = $('.text-rotate-minus-90');
+    rotateTextInElements.css('height', rotateTextInElements.width());
 });
