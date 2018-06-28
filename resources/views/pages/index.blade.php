@@ -5,7 +5,7 @@
     <h2>Alle Skills</h2>
 
     @if($skillGroups->count() > 0)
-        <table class="table table-striped table-bordered">
+        <table class="table table-striped table-bordered rotated">
             <thead>
                 <tr>
                     <td>&nbsp;</td>
@@ -14,11 +14,10 @@
                     @endforeach
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
+                    <th></th>
                     @foreach($skillGroups as $skillGroup)
                         @foreach($skillGroup->skills as $skill)
-                            <!-- class="text-center" -->
-                            <th><div class="text-rotate-minus-90">{{ $skill->name }}</div></th>
+                            <th class="rotation-90"><div>{{ $skill->name }}</div></th>
                         @endforeach
                     @endforeach
                 </tr>
@@ -28,7 +27,7 @@
                 @if($users->count() > 0)
                     @foreach($users as $user)
                         <tr>
-                            <th>{{ $user->name }}</th>
+                            <th class="row-header">{{ $user->name }}</th>
                             @foreach($skillGroups as $skillGroup)
                                 @foreach($skillGroup->skills as $skill)
                                     @php
@@ -36,7 +35,7 @@
                                         //dd($userSkill);
                                         $currentGrade = 5;//$userSkill->grade;
                                     @endphp
-                                    <td style="background-color:rgba({{ implode(',', $grade_rgb_colors[$currentGrade]).',1' }})" class="text-center">
+                                    <td class="value" style="background-color:rgba({{ implode(',', $grade_rgb_colors[$currentGrade]).',1' }})" class="text-center">
                                         <a href="#">{{ $currentGrade }}</a>
                                     </td>
                                 @endforeach
