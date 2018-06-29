@@ -35,12 +35,16 @@
                             @foreach($skillGroups as $skillGroup)
                                 @foreach($skillGroup->skills as $skill)
                                     @php
+                                        $currentGrade = 0;
                                         $userSkill = $user->getUserSkill($skill->id);
-                                        //dd($userSkill);
-                                        $currentGrade = 5;//$userSkill->grade;
+                                        if (!empty($userSkill)) {
+                                            $currentGrade = $userSkill->grade;
+                                        }
                                     @endphp
                                     <td class="value text-center" style="background-color:rgba({{ implode(',', $grade_rgb_colors[$currentGrade]).',1' }})" class="text-center">
-                                        <a href="#" class="btn btn-link">{{ $currentGrade }}</a>
+                                        <a href="#" class="btn btn-link">
+                                            {{ $currentGrade > 0  ? $currentGrade : '?' }}
+                                        </a>
                                     </td>
                                 @endforeach
                             @endforeach
