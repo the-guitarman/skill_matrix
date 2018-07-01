@@ -3,13 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserSkill extends Pivot
 {
-    //use SoftDeletes
-
-    protected $table = 'user_skills';
     public $timestamps = true;
 
     /**
@@ -17,7 +13,7 @@ class UserSkill extends Pivot
      *
      * @var string
      */
-    //protected $table = 'users';
+    protected $table = 'user_skills';
 
     /**
      * The attributes that should be mutated to dates.

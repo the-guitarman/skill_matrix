@@ -24,4 +24,36 @@ class SkillTest extends TestCase
         $this->assertTrue($user->user_skill->grade >= 1);
         $this->assertTrue($user->user_skill->grade <= 6);
     }
+
+    public function testSoftDeletingASkill()
+    {
+        $userSkill = factory(UserSkill::class)->create();
+        $skill = $userSkill->skill;
+        $allSkillCount = Skill::count();
+        $allSkillCountWithTrashed = Skill::withTrashed()->count();
+        $allUserSkillCount = UserSkill::count();
+        $userSkillCount = $skill->users->count();
+
+        $skill->delete();
+
+        $this->assertEquals($allSkillCount - 1, Skill::count());
+        $this->assertEquals($allSkillCountWithTrashed, Skill::withTrashed()->count());
+        $this->assertEquals($allUserSkillCount, UserSkill::count());
+    }
+
+    public function testForceDeletingASkill()
+    {
+        $userSkill = factory(UserSkill::class)->create();
+        $skill = $userSkill->skill;
+        $allSkillCount = Skill::count();
+        $allSkillCountWithTrashed = Skill::withTrashed()->count();
+        $allUserSkillCount = UserSkill::count();
+        $userSkillCount = $skill->users->count();
+
+        $skill->forceDelete();
+
+        $this->assertEquals($allSkillCount - 1, Skill::count());
+        $this->assertEquals($allSkillCountWithTrashed - 1, Skill::withTrashed()->count());
+        $this->assertEquals($allUserSkillCount - $userSkillCount, UserSkill::count());
+    }
 }

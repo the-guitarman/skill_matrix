@@ -38,9 +38,9 @@ class Skill extends Model
 
         static::deleting(function($model)
         {
-            //if ($model->forceDeleting) {
+            if ($model->isForceDeleting()) {
                 $model->users()->detach();
-            //}
+            }
         });
 
         //static::addGlobalScope(new MandantScope);

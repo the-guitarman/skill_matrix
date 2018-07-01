@@ -29,4 +29,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('skill-groups.skills', 'SkillsController')
         ->except(['show'])
         ->parameters(['skill-groups' => 'skill_group_id', 'skills' => 'id']);
+
+    Route::resource('my-skills', 'MySkillsController')
+        ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+        ->parameters(['my-skills' => 'id']);
 });
