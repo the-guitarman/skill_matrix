@@ -30,9 +30,9 @@ class PagesControllerTest extends TestCase
 
         $skillGroups = SkillGroup::with('skills')->orderBy('name', 'asc');
         foreach($skillGroups as $skillGroup) {
-            $response->assertSee(htmlspecialchars($skillGroup->name));
+            $response->assertSee(e($skillGroup->name));
             foreach($skillGroups->skills() as $skill) {
-                $response->assertSee(htmlspecialchars($skill->name));
+                $response->assertSee(e($skill->name));
             }
         }
     }
