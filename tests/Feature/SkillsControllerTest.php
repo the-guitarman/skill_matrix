@@ -24,7 +24,7 @@ class SkillControllerTest extends TestCase
         $this->skillGroup = factory(SkillGroup::class)->create();
     }
 
-    public function testShowsAllSkillGroups()
+    public function testShowsAllSkills()
     {
         $this->loginRequired('get', 'skill-groups.skills.index', ['skill_group_id' => $this->skillGroup->id]);
 
@@ -106,7 +106,7 @@ class SkillControllerTest extends TestCase
         $this->assertEquals($allSkillsCount, Skill::count());
     }
 
-    public function testStoresASkillGroup()
+    public function testStoresASkill()
     {
         $this->loginRequired('post', 'skill-groups.skills.store', ['skill_group_id' => $this->skillGroup->id]);
 
@@ -128,7 +128,7 @@ class SkillControllerTest extends TestCase
         $this->assertEquals($allSkillCount + 1, Skill::count());
     }
 
-    public function testShowsEditASkillGroup()
+    public function testShowsEditASkill()
     {
         $skill = factory(Skill::class)->create();
 
@@ -143,7 +143,7 @@ class SkillControllerTest extends TestCase
         $this->responseHasTag($response, 'input', [
             'id' => 'skill_name',
             'name' => 'skill[name]',
-            'value' => $skill->name,
+            'value' => e($skill->name),
             'placeholder' => "Name",
             'class' => 'form-control',
             'type' => 'text',

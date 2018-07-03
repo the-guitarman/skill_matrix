@@ -13,10 +13,10 @@ class MySkillsController extends Controller
     ];
 
     private $valdation_errors = [
-        'user_skill.grade.required' => 'Bewerte Sie ihr Können mit einer Schulnote (1-6).',
-        'user_skill.grade.numeric' => 'Bewerte Sie ihr Können mit einer Schulnote (1-6).',
-        'user_skill.grade.min' => 'Bewerte Sie ihr Können mit einer Schulnote (1-6).',
-        'user_skill.grade.max' => 'Bewerte Sie ihr Können mit einer Schulnote (1-6).',
+        'user_skill.grade.required' => 'Bewerten Sie ihr Können mit einer Schulnote (1-6).',
+        'user_skill.grade.numeric' => 'Bewerten Sie ihr Können mit einer Schulnote (1-6).',
+        'user_skill.grade.min' => 'Bewerten Sie ihr Können mit einer Schulnote (1-6).',
+        'user_skill.grade.max' => 'Bewerten Sie ihr Können mit einer Schulnote (1-6).',
     ];
 
     /**
@@ -88,7 +88,13 @@ class MySkillsController extends Controller
         $validatedData = $this->execute_validations($request);
 
         $skill = Skill::findOrFail($skillId);
-        Auth::user()->skills()->attach($skill->id, $validatedData['user_skill']);
+        $userSkill = Auth::user()->getUserSkill($skill->id);
+        if ($userSkill) {
+            Auth::user()->skills()->updateExistingPivot($skill->id, $validatedData['user_skill']);
+        } else {
+            Auth::user()->skills()->attach($skill->id, $validatedData['user_skill']);
+        }
+
         $flash = ['flash_notice' => 'Ihr Skill '.$skill->name.' wurde eingetragen.'];
 
         return redirect()->route('skills.my.index')->with($flash);
