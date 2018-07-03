@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Skill, SkillGroup, UserSkill};
+use App\Models\{Skill, SkillGroup, User, UserSkill};
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\{Auth, Config};
 
 class MySkillsController extends Controller
 {
     private $validation_rules = [
-        'skill.skill_group_id' => 'required|exists:skill_groups,id',
-        'skill.name' => 'required|min:2',
+        'user_skill.grade' => 'required|numeric',
     ];
 
     private $valdation_errors = [
-        'skill.skill_group_id.required' => 'Wählen Sie die Skill Group aus.',
-        'skill.skill_group_id.exists' => 'Wählen Sie die Skill Group aus.',
-        'skill.name.required' => 'Der Name des Skills wird benötigt.',
-        'skill.name.min' => 'Geben Sie mindestens 2 Zeichen ein.',
+        'user_skill.grade.required' => 'Bewerte Sie ihr Können mit einer Schulnote (1-6).',
+        'user_skill.grade.numeric' => 'Bewerte Sie ihr Können mit einer Schulnote (1-6).',
+        'user_skill.grade.min' => 'Bewerte Sie ihr Können mit einer Schulnote (1-6).',
+        'user_skill.grade.max' => 'Bewerte Sie ihr Können mit einer Schulnote (1-6).',
     ];
 
     /**
@@ -27,118 +27,120 @@ class MySkillsController extends Controller
     public function __construct()
     {
         //$this->middleware('auth');
+
+        $grades = array_keys(Config::get('grade.rgb_colors'));
+        $grades = array_filter(
+            $grades,
+            function($grade) {
+                return $grade > 0;
+            }
+        );
+        $minGrade = min($grades);
+        $maxGrade = max($grades);
+
+        $this->validation_rules['user_skill.grade'] .= "|min:$minGrade|max:$maxGrade";
     }
     
     /**
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param int $skillGroupId
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, int $skillGroupId)
+    public function index(Request $request)
     {
-        $skillGroup = SkillGroup::findOrFail($skillGroupId);
         $sort = $this->sort($request, 'name');
-        return view('skills/index', [
-            'skillGroup' => $skillGroup, 
-            'skills' => $skillGroup->skills()->orderBy($sort['sort'], $sort['dir'])->paginate($this->perPage)
-        ]);
+        $users = User::where('id', Auth::user()->id)->get();
+        $skillGroups = SkillGroup::with('skills')->withCount(['skills'])->orderBy($sort['sort'], $sort['dir'])->paginate($this->perPage);
+        $skillCount = 0;
+        foreach($skillGroups as $skillGroup) {
+            $skillCount += $skillGroup->skills_count;
+        }
+        return view('my_skills/index', ['skillGroups' => $skillGroups, 'skillCount' => $skillCount, 'users' => $users]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param int $skillGroupId
+     * @param int $skillId
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, int $skillGroupId)
+    public function create(Request $request, int $skillId)
     {
-        $skillGroup = SkillGroup::findOrFail($skillGroupId);
-        $skill = new Skill();
-        $sort = $this->sort($request, 'name');
-        return view('skills/create', [
-            'skill' => $skill,
-            'skillGroup' => $skillGroup, 
-            'allSkillGroups' => SkillGroup::orderBy($sort['sort'], $sort['dir'])->get(),
-        ]);
+        $skill = Skill::findOrFail($skillId);
+        $userSkill = new UserSkill();
+        $userSkill->user_id = Auth::user()->id;
+        $userSkill->skill_id = $skill->id;
+        $userSkill->grade = '';
+        return view('my_skills/create', ['userSkill' => $userSkill,]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param int $oldSkillGroupId
+     * @param int $skillId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, int $oldSkillGroupId)
+    public function store(Request $request, int $skillId)
     {
-        $validated_data = $this->execute_validations($request);
+        $validatedData = $this->execute_validations($request);
 
-        $skill = Skill::create($validated_data['skill']);
-        $flash = ['flash_notice' => 'Der Skill '.$skill->name.' wurde angelegt.'];
+        $skill = Skill::findOrFail($skillId);
+        Auth::user()->skills()->attach($skill->id, $validatedData['user_skill']);
+        $flash = ['flash_notice' => 'Ihr Skill '.$skill->name.' wurde eingetragen.'];
 
-        return redirect()->route('skill-groups.show', ['id' => $skill->skill_group_id])->with($flash);
+        return redirect()->route('skills.my.index')->with($flash);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param int $oldSkillGroupId
-     * @param int $id
+     * @param int $skillId
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, int $skillGroupId, int $id)
+    public function edit(Request $request, int $skillId)
     {
-        $skillGroup = SkillGroup::findOrFail($skillGroupId);
-        $skill = $skillGroup->skills()->findOrFail($id);
-        $sort = $this->sort($request, 'name');
-        return view('skills/edit', [
-            'skill' => $skill,
-            'skillGroup' => $skillGroup, 
-            'allSkillGroups' => SkillGroup::orderBy($sort['sort'], $sort['dir'])->get(),
-        ]);
+        $userSkill = Auth::user()->getUserSkill($skillId);
+        return view('my_skills/edit', ['userSkill' => $userSkill,]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param int $oldSkillGroupId
-     * @param int $id
+     * @param int $skillId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $oldSkillGroupId, int $id)
+    public function update(Request $request, int $skillId)
     {
-        $validated_data = $this->execute_validations($request, $id);
+        $validatedData = $this->execute_validations($request);
 
-        $skill = Skill::findOrFail($id);
-        $skill->fill($validated_data['skill']);
-        $skill->save();
-        $flash = ['flash_notice' => 'Der Skill '.$skill->name.' wurde gespeichert.'];
+        $skill = Skill::findOrFail($skillId);
+        Auth::user()->skills()->updateExistingPivot($skill->id, $validatedData['user_skill']);
+        $flash = ['flash_notice' => 'Ihr Skill '.$skill->name.' wurde geändert.'];
 
-        return redirect()->route('skill-groups.show', ['id' => $skill->skill_group_id])->with($flash);
+        return redirect()->route('skills.my.index')->with($flash);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param int $skillGroupId
-     * @param int $id
+     * @param int $skillId
      */
-    public function destroy(Request $request, int $skillGroupId, int $id)
+    public function destroy(Request $request, int $skillId)
     {
         //DB::beginTransaction();
-        $skill = Skill::findOrFail($id);
+        $skill = Skill::findOrFail($skillId);
 
-        $skill->delete();
+        Auth::user()->skills()->detach($skill->id);
         //DB::commit();
-        $flash = ['flash_notice' => 'Der Skill '.$skill->name.' wurde gelöscht.'];
+        $flash = ['flash_notice' => 'Ihr Skill '.$skill->name.' wurde gelöscht.'];
 
-        return redirect()->route('skill-groups.show', ['id' => $skill->skill_group_id])->with($flash);
+        return redirect()->route('skills.my.index')->with($flash);
     }
 
     /**
@@ -150,14 +152,6 @@ class MySkillsController extends Controller
     {
         $validation_rules = $this->validation_rules;
         $validation_errors = $this->valdation_errors;
-
-        if (in_array($request->method(), ['PUT', 'PATCH']) && !empty($id) && is_numeric($id)) {
-            $validation_rules['skill.name'] .= "|unique:skills,name,$id";
-        } else {
-            $validation_rules['skill.name'] .= '|unique:skills,name';
-        }
-
-        $validation_errors['skill.name.unique'] = 'Der Name des Skills ist bereits vergeben.';
 
         return $request->validate($validation_rules, $validation_errors);
     }

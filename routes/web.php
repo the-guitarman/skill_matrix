@@ -30,7 +30,10 @@ Route::middleware(['auth'])->group(function () {
         ->except(['show'])
         ->parameters(['skill-groups' => 'skill_group_id', 'skills' => 'id']);
 
-    Route::resource('my-skills', 'MySkillsController')
-        ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
-        ->parameters(['my-skills' => 'id']);
+    Route::get('/skills/my', 'MySkillsController@index')->name('skills.my.index');
+    Route::get('/skills/{skill_id}/my/create', 'MySkillsController@create')->name('skills.my.create');
+    Route::post('/skills/{skill_id}/my', 'MySkillsController@store')->name('skills.my.store');
+    Route::get('/skills/{skill_id}/my/edit', 'MySkillsController@edit')->name('skills.my.edit');
+    Route::put('/skills/{skill_id}/my', 'MySkillsController@update')->name('skills.my.update');
+    Route::delete('/skills/{skill_id}/my', 'MySkillsController@destroy')->name('skills.my.destroy');
 });

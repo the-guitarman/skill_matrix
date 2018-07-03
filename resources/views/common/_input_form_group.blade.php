@@ -29,7 +29,7 @@
 
     $type = empty($type) ? 'text' : strtolower($type);
 
-    if (!empty($numeric) && $numeric === true) {
+    if (!empty($numeric) && $numeric === true && is_numeric($object->$name)) {
         $decimals = empty($decimals) ? 2 : $decimals;
         $object->$name = number_format($object->$name, $decimals, ',', '.');
     }
