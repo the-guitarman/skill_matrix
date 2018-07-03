@@ -184,6 +184,62 @@ class MySkillControllerTest extends TestCase
             ->assertSee(e('Skill ändern'));
     }
 
+    public function testTriesToUpdateAnExistingSkill()
+    {
+        $skill = factory(Skill::class)->create();
+        $allUserSkillsCount = UserSkill::count();
+
+        $this->user->skills()->attach($skill->id, ['grade' => 1]);
+        $skillIds = $this->user->skills()->pluck('skills.id')->all();
+        $this->assertTrue(in_array($skill->id, $skillIds));
+
+        $this->loginRequired('post', 'skills.my.store', ['skill_id' => $skill->id]);
+
+        $this->actingAs($this->user)
+            ->from(route('skills.my.edit', ['skill_id' => $skill->id]))
+            ->put(route('skills.my.update', ['skill_id' => $skill->id]), [
+                'user_skill' => [
+                    'grade' => null,
+                ]
+            ])
+            ->assertStatus(302)
+            ->assertRedirect(route('skills.my.edit', ['skill_id' => $skill->id]))
+            ->assertSessionHasErrors([
+                'user_skill.grade' => 'Bewerten Sie ihr Können mit einer Schulnote (1-6).',
+            ])
+        ;
+
+        $skillIds = $this->user->skills()->pluck('skills.id')->all();
+        $this->assertTrue(in_array($skill->id, $skillIds));
+    }
+
+    public function testUpdatesAnExistingSkill()
+    {
+        $skill = factory(Skill::class)->create();
+        $allUserSkillsCount = UserSkill::count();
+
+        $this->user->skills()->attach($skill->id, ['grade' => 1]);
+        $skillIds = $this->user->skills()->pluck('skills.id')->all();
+        $this->assertTrue(in_array($skill->id, $skillIds));
+
+        $this->loginRequired('post', 'skills.my.update', ['skill_id' => $skill->id]);
+
+        $this->actingAs($this->user)
+            ->from(route('skills.my.edit', ['skill_id' => $skill->id]))
+            ->put(route('skills.my.update', ['skill_id' => $skill->id]), [
+                'user_skill' => [
+                    'grade' => 2,
+                ]
+            ])
+            ->assertStatus(302)
+            ->assertRedirect(route('skills.my.index'))
+            ->assertSessionHas('flash_notice', 'Ihr Skill ' . $skill->name . ' wurde geändert.')
+        ;
+
+        $skillIds = $this->user->skills()->pluck('skills.id')->all();
+        $this->assertTrue(in_array($skill->id, $skillIds));
+    }
+
 
 
 
