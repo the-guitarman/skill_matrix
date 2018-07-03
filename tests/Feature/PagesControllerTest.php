@@ -8,25 +8,19 @@ use App\Models\{Skill, SkillGroup, User};
 
 class PagesControllerTest extends TestCase
 {
-    public function testRootWithoutLogin()
+    public function testIndex()
     {
-        $response = $this->get('/');
+        $this->loginRequired('get', 'root');
 
-        $response
-            ->assertStatus(302)
-            ->assertRedirect(route('login'))
-        ;
-    }
-
-    public function testRootWithLogin()
-    {
         $user = factory(User::class)->create();
 
         $response = 
             $this->actingAs($user)
                 ->from(route('login'))
-                ->get('/')
-                ->assertStatus(200);
+                ->get(route('root'))
+                ->assertStatus(200)
+                ->assertSee('Übersicht')
+                ->assertSee('Alle Skills');
 
         $skillGroups = SkillGroup::with('skills')->orderBy('name', 'asc');
         foreach($skillGroups as $skillGroup) {
