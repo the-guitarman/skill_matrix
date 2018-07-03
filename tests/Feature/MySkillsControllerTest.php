@@ -138,7 +138,6 @@ class MySkillControllerTest extends TestCase
         $skillIds = $this->user->skills()->pluck('skills.id')->all();
         $this->assertTrue(in_array($skill->id, $skillIds));
 
-
         $this->assertEquals(1, $this->user->skills()->where('skill_id', $skill->id)->count());
         $userSkill = UserSkill::where('user_id', $this->user->id)->where('skill_id', $skill->id)->first();
         $this->assertEquals(2, $userSkill->grade);
@@ -238,12 +237,11 @@ class MySkillControllerTest extends TestCase
 
         $skillIds = $this->user->skills()->pluck('skills.id')->all();
         $this->assertTrue(in_array($skill->id, $skillIds));
+
+        $this->assertEquals(1, $this->user->skills()->where('skill_id', $skill->id)->count());
+        $userSkill = UserSkill::where('user_id', $this->user->id)->where('skill_id', $skill->id)->first();
+        $this->assertEquals(2, $userSkill->grade);
     }
-
-
-
-
-
 
     public function testDeletesASkill()
     {
@@ -269,61 +267,4 @@ class MySkillControllerTest extends TestCase
         $this->assertEquals($allSkillGroupsCount, SkillGroup::count());
         $this->assertEquals($allUserSkillsCount, UserSkill::count());
     }
-/*
-
-    public function testTriesToUpdateAnExistingSkill()
-    {
-        $skill_1 = factory(Skill::class)->create();
-        $skill_2 = factory(Skill::class)->create();
-
-        $this->loginRequired('put', 'skill-groups.skills.update', ['skill_group_id' => $skill_1->skill_group_id, 'id' => $skill_1->id]);
-
-        $allSkillsCount = Skill::count();
-
-        $this->actingAs($this->user)
-            ->from(route('skill-groups.skills.edit', ['skill_group_id' => $skill_1->skill_group_id, 'id' => $skill_1->id]))
-            ->put(route('skill-groups.skills.update', ['skill_group_id' => $skill_1->skill_group_id, 'id' => $skill_1->id]), [
-                'skill' => [
-                    'skill_group_id' => 99999,
-                    'name' => $skill_2->name,
-                ]
-            ])
-            ->assertStatus(302)
-            ->assertRedirect(route('skill-groups.skills.edit', ['skill_group_id' => $skill_1->skill_group_id, 'id' => $skill_1->id]))
-            ->assertSessionHasErrors([
-                'skill.skill_group_id' => 'Wählen Sie die Skill Group aus.',
-                'skill.name' => 'Der Name des Skills ist bereits vergeben.',
-            ])
-        ;
-
-        $this->assertEquals($allSkillsCount, Skill::count());
-    }
-
-    public function testUpdatesAnExistingSkill()
-    {
-        $skill = factory(Skill::class)->create();
-
-        $this->loginRequired('put', 'skill-groups.skills.update', ['skill_group_id' => $skill->skill_group_id, 'id' => $skill->id]);
-
-        $allSkillsCount = Skill::count();
-
-        $faker = Factory::create();
-        $name = 'New-Name';
-
-        $this->actingAs($this->user)
-            ->from(route('skill-groups.skills.edit', ['skill_group_id' => $skill->skill_group_id, 'id' => $skill->id]))
-            ->put(route('skill-groups.skills.update', ['skill_group_id' => $skill->skill_group_id, 'id' => $skill->id]), [
-                'skill' => [
-                    'skill_group_id' => $skill->skill_group_id,
-                    'name' => $name,
-                ]
-            ])
-            ->assertStatus(302)
-            ->assertRedirect(route('skill-groups.show', ['skill_group_id' => $skill->skill_group_id]))
-            ->assertSessionHas('flash_notice', 'Der Skill ' . $name . ' wurde gespeichert.')
-        ;
-
-        $this->assertEquals($allSkillsCount, Skill::count());
-    }
-*/
 }
