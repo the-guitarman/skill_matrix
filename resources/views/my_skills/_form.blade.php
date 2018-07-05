@@ -16,7 +16,7 @@
 @endphp
 @include('common/_input_form_group', [
     'object' => $userSkill, 'scope' => true, 'name' => 'grade',
-    'options' => ['autofocus' => true, 'placeholder' => 'Schulnote', 'min' => $minGrade, 'max' => $maxGrade, 'step' => 1],
+    'options' => ['autofocus' => true, 'placeholder' => 'Schulnote', 'min' => $minGrade, 'max' => $maxGrade, 'step' => 1, 'required' => true],
     'type' => 'number' //, 'numeric' => true, 'decimals' => 0,
 ])
 

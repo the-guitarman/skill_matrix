@@ -13523,10 +13523,12 @@ form.css-delete-button {
 .table.rotated .row-header {
   width: auto;
   padding: 10px;
+  white-space: nowrap;
+  vertical-align: middle;
 }
 
 .table.rotated td.value {
   height: 40px;
-  padding: 10px;
+  padding: 3px;
 }
 

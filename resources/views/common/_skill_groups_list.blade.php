@@ -38,7 +38,7 @@
                                     }
                                 @endphp
                                 <td class="value text-center" style="background-color:rgba({{ implode(',', $grade_rgb_colors[$currentGrade]).',1' }})" class="text-center">
-                                    <a href="{{ $userSkillRoute }}" class="btn btn-link">
+                                    <a href="{{ $userSkillRoute }}" class="btn btn-link" data-toggle="modal" data-target="#ajax-modal">
                                         {{ $currentGrade > 0  ? $currentGrade : '?' }}
                                     </a>
                                 </td>

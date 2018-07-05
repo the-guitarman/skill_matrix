@@ -47396,6 +47396,23 @@ $(document).ready(function() {
         }
     });
 
+    $(document).on('show.bs.modal', '#ajax-modal', function(event) {
+        var clickedLink = $(event.relatedTarget);
+        var modal = $(this);
+        modal.find('.modal-body').html('<div class="text-center"><i class="fa fa-spinner"></i> Loading ...</div>');
+
+        $.ajax({
+            type: 'GET',
+            url: clickedLink.attr('href'),
+            success: function(data, textStatus, jqXHR) {
+                modal.find('.modal-body').html(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                modal.find('.modal-body').html('<div class="alert alert-danger text-center">Entschuldigung, da ist etwas schief gegangen.<div>');
+            }
+        });
+    });
+
 });
 var scrollToElement = function(element) {
     if (typeof(element) === 'string') {

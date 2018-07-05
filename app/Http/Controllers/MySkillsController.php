@@ -73,7 +73,10 @@ class MySkillsController extends Controller
         $userSkill->user_id = Auth::user()->id;
         $userSkill->skill_id = $skill->id;
         $userSkill->grade = '';
-        return view('my_skills/create', ['userSkill' => $userSkill,]);
+        if ($request->ajax()) {
+            return view('my_skills/_create', ['userSkill' => $userSkill])->render();
+        }
+        return view('my_skills/create', ['userSkill' => $userSkill]);
     }
 
     /**
@@ -110,7 +113,10 @@ class MySkillsController extends Controller
     public function edit(Request $request, int $skillId)
     {
         $userSkill = Auth::user()->getUserSkill($skillId);
-        return view('my_skills/edit', ['userSkill' => $userSkill,]);
+        if ($request->ajax()) {
+            return view('my_skills/_edit', ['userSkill' => $userSkill])->render();
+        }
+        return view('my_skills/edit', ['userSkill' => $userSkill]);
     }
 
     /**
