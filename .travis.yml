@@ -19,7 +19,13 @@ before_script:
   - npm install npm@latest -g
   - npm install -g jshint
   - npm install
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
   - vendor/bin/phpunit --coverage-text
+  - vendor/bin/phpunit --coverage-clover=coverage.xml
   - npm run production
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
