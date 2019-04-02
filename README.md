@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/the-guitarman/skill_matrix.svg?branch=master)](https://travis-ci.org/the-guitarman/skill_matrix)
+[![codecov](https://codecov.io/gh/the-guitarman/skill_matrix/branch/master/graph/badge.svg)](https://codecov.io/gh/the-guitarman/skill_matrix)
 
 # Skill-Matrix
 
